@@ -24,8 +24,8 @@ resource "aws_iam_policy_attachment" "lambda_basic_execution" {
 
 resource "aws_lambda_function" "hello_node_lambda" {
   function_name = "hello_node_lambda"
-  filename      = "lambda_function.zip"
-  source_code_hash = filebase64sha256("lambda_function.zip")
+  filename      = "src.zip"
+  source_code_hash = filebase64sha256("src.zip")
   handler       = "index.handler"
   runtime       = "nodejs18.x"
   role          = aws_iam_role.lambda_exec_role.arn
