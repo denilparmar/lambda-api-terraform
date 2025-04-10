@@ -1,7 +1,7 @@
-name: Destroy Terraform Infrastructure
+name: Destroy Lambda API with Terraform
 
 on:
-  workflow_dispatch:  # Allows manual triggering of the workflow
+  workflow_dispatch: # Allows manual triggering of the workflow
 
 jobs:
   destroy:
@@ -15,22 +15,22 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Zip Lambda code
-      run: |
-        cd src
-        zip ../src.zip index.js  # Ensure this matches the location of your Lambda code
-        cd ..
-
     - name: Set up Terraform
       uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: 1.6.6
 
+    - name: Zip Lambda code (optional, ensures consistency)
+      run: |
+        cd src
+        zip ../src.zip index.js
+        cd ..
+
     - name: Terraform Init
       run: terraform init
 
-    - name: Terraform Plan (Destroy)
-      run: terraform plan -destroy -out=tfplan
+    - name: Terraform Plan Destroy
+      run: terraform plan -destroy
 
-    - name: Terraform Apply (Destroy)
-      run: terraform apply -auto-approve tfplan
+    - name: Terraform Destroy
+      run: terraform destroy -auto-approve
